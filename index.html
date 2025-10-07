@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XV de Mía — Pasaporte</title>
+  <meta name="theme-color" content="#0B1D3A" />
+  <meta name="description" content="Invitación de XV estilo pasaporte + boarding pass, elegante y personal.">
+  <meta property="og:title" content="Invitación XV — Pasaporte" />
+  <meta property="og:description" content="Invitación de XV estilo pasaporte + boarding pass, elegante y personal." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1520975922203-b7f5af5c0d5f?q=80&w=1600&auto=format&fit=crop" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN + Theme Tokens -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0B1D3A',
+            gold: '#C9A86A',
+            ivory: '#F7F4EC',
+            ink: '#0B1D3A',
+            paper: '#F7F4EC',
+          },
+          boxShadow: {
+            glam: '0 10px 30px rgba(0,0,0,.15)'
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['Poppins', 'system-ui', 'sans-serif']
+          },
+          backgroundImage: {
+            passportTex: 'radial-gradient(1200px 600px at 120% -10%, rgba(255,255,255,.08), transparent), radial-gradient(1000px 500px at -10% 120%, rgba(255,255,255,.06), transparent)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root{
+      --brand-navy:#0B1D3A; --brand-gold:#C9A86A; --brand-ivory:#F7F4EC;
+    }
+    .title-gold{ background:linear-gradient(92deg,var(--brand-gold),#e7d0a1); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .elegant-border{ border:1px solid rgba(201,168,106,.4); box-shadow:inset 0 0 0 1px rgba(255,255,255,.08); }
+    .stamp{ opacity:.12; mix-blend-mode:multiply; filter:grayscale(30%); }
+    .stamp.floaty{ animation:floaty 10s ease-in-out infinite; }
+    @keyframes floaty{ 0%,100%{ transform:translateY(0) rotate(0); } 50%{ transform:translateY(-6px) rotate(-1deg); } }
+    .page{ scroll-snap-align:start; }
+    .snapx{ scroll-snap-type:x mandatory; }
+    .no-scrollbar::-webkit-scrollbar{ display:none; } .no-scrollbar{ -ms-overflow-style:none; scrollbar-width:none; }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.5rem 1rem; border-radius:.75rem; border-width:1px; transition:.2s; font-weight:500; }
+    .btn-gold{ border-color:var(--brand-gold); color:#0B1D3A; background-color:#C9A86A; }
+    .btn-gold:hover{ background-color:#c09b55; }
+    .btn-ghost{ border-color:rgba(255,255,255,.1); color:var(--brand-ivory); }
+    .btn-ghost:hover{ background-color:rgba(255,255,255,.06); }
+    .chip{ display:inline-flex; align-items:center; padding:.25rem .75rem; border-radius:9999px; border:1px solid rgba(201,168,106,.6); color:#C9A86A; font-size:.75rem; }
+
+    /* Orden de páginas: cuenta regresiva primero */
+    #viewport > #p-count{order:1}
+    #viewport > #p-portada{order:2}
+    #viewport > #p-datos{order:3}
+    #viewport > #p-mapa{order:4}
+    #viewport > #p-dress{order:5}
+    #viewport > #p-rsvp{order:6}
+    #viewport > #p-regalos{order:7}
+    #viewport > #p-galeria{order:8}
+    #viewport > #p-agenda{order:9}
+    #viewport > #p-faq{order:10}
+
+    /* Hero con foto principal */
+    .hero-bg{
+      position: relative;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+    .hero-bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(80% 80% at 20% 10%, rgba(11,29,58,.2), transparent 60%),
+                  linear-gradient(to bottom, rgba(11,29,58,.55), rgba(11,29,58,.85));
+      z-index:0;
+    }
+
+    /* Hint de deslizá */
+    .swipe-hint{
+      position: sticky;
+      bottom: .75rem;
+      left: 0;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: .5rem;
+      z-index: 20;
+      background: rgba(247,244,236,.9);
+      color: #0B1D3A;
+      border: 1px solid rgba(201,168,106,.6);
+      border-radius: 9999px;
+      padding: .35rem .7rem .35rem .6rem;
+      display: inline-flex; align-items:center; gap:.4rem;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+      animation: bump 2.2s infinite;
+    }
+    @keyframes bump{ 0%,100%{ transform:translateX(0)} 50%{ transform:translateX(-4px)} }
+    .chev{ display:inline-block; transform: translateY(1px); animation: slide 1.4s infinite; }
+    @keyframes slide{ 0%{opacity:.4; transform:translateX(0)} 60%{opacity:1; transform:translateX(6px)} 100%{opacity:.4; transform:translateX(0)} }
+    .edge-fade{
+      position:absolute; inset-inline-end:0; top:0; bottom:0; width:48px; pointer-events:none;
+      background: linear-gradient(to left, rgba(11,29,58,.3), transparent);
+    }
+    @media (min-width: 640px){
+      .edge-fade{ display:none; }
+    }
+  </style>
+</head>
+
+<body class="bg-navy text-ivory font-sans">
+  <!-- Barra superior -->
+<header class="sticky top-0 z-40 backdrop-blur bg-navy/80 border-b border-white/10">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full border border-gold/70 bg-[url('https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=400&auto=format&fit=crop')] bg-cover"></div>
+    <div class="font-display text-lg tracking-wide">Mis <span class="title-gold">XV</span></div>
+  </div>
+</header>
+
+
+  <!-- Hero con foto principal -->
+<section id="hero" class="relative hero-bg">
+  <div class="absolute inset-0 bg-passportTex pointer-events-none"></div>
+
+  <!-- Overlay, por si querés bajar/levantar el contraste -->
+  <div class="absolute inset-0"
+       style="background:
+         radial-gradient(80% 80% at 20% 10%, rgba(11,29,58,.15), transparent 60%),
+         linear-gradient(to bottom, rgba(11,29,58,.55), rgba(11,29,58,.85));"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-4 py-16 sm:py-20 grid md:grid-cols-2 gap-8 items-end md:items-center min-h-[56vh]">
+    <div>
+      <h1 class="font-display text-4xl sm:text-5xl leading-tight">
+        <span class="block title-gold">Mis XV</span>
+        <span class="block">de Mía</span>
+      </h1>
+      <p class="mt-4 text-white/90">¡Te invito a mis XV! Deslizá para ver todos los detalles.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="#pages" class="btn btn-gold">Ver detalles</a>
+      </div>
+    </div>
+
+    <!-- (Opcional) Boarding pass mini: lo dejo, pero sin los “sellos” circulares -->
+    <div class="relative">
+      <div class="bg-ivory/95 backdrop-blur text-navy rounded-2xl p-5 shadow-glam border border-gold/40">
+        <div class="text-xs tracking-widest uppercase text-navy/70">Boarding Pass</div>
+        <div class="mt-2 flex items-center justify-between gap-2">
+          <div>
+            <div class="text-[10px] text-navy/60">From</div>
+            <div class="font-display text-2xl">BUE</div>
+          </div>
+          <svg width="56" height="24" viewBox="0 0 56 24" fill="none" class="opacity-70">
+            <path d="M0 12h44" stroke="#0B1D3A"/><path d="M44 12l-4-3v6l4-3z" fill="#0B1D3A"/>
+          </svg>
+          <div class="text-right">
+            <div class="text-[10px] text-navy/60">To</div>
+            <div class="font-display text-2xl">SAL</div>
+          </div>
+        </div>
+        <div class="mt-3 grid grid-cols-3 gap-2 text-sm">
+          <div><div class="text-[10px] text-navy/60">Nombre</div><div id="demoName" class="font-semibold">Mía</div></div>
+          <div><div class="text-[10px] text-navy/60">Fecha</div><div id="demoDate" class="font-semibold">22/11 — 21:00</div></div>
+          <div><div class="text-[10px] text-navy/60">Salón</div><div id="demoVenue" class="font-semibold truncate" title="Salón">Salón</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Páginas -->
+  <section id="pages" class="relative">
+    <div class="max-w-5xl mx-auto px-4">
+      <!-- Tabs -->
+      <div class="flex flex-wrap gap-2 justify-center mb-4">
+        <button class="chip pageTab" data-target="#p-count">Cuenta regresiva</button>
+        <button class="chip pageTab" data-target="#p-portada">Portada</button>
+        <button class="chip pageTab" data-target="#p-datos">Datos</button>
+        <button class="chip pageTab" data-target="#p-mapa">Mapa</button>
+        <button class="chip pageTab" data-target="#p-dress">Dress code</button>
+        <button class="chip pageTab" data-target="#p-rsvp">RSVP</button>
+        <button class="chip pageTab" data-target="#p-regalos">Regalos</button>
+        <button class="chip pageTab" data-target="#p-galeria">Galería</button>
+        <button class="chip pageTab" data-target="#p-agenda">Agenda</button>
+        <button class="chip pageTab" data-target="#p-faq">FAQ</button>
+      </div>
+
+      <!-- Viewport con snap -->
+      <div class="relative">
+        <div class="edge-fade"></div>
+        <div id="viewport" class="snapx no-scrollbar overflow-x-auto flex gap-4 pb-10">
+          <!-- Portada -->
+          <article id="p-portada" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <div class="flex items-start justify-between">
+              <div>
+                <h2 class="font-display text-3xl leading-tight">Pasaporte XV<br><span id="pName" class="title-gold">Mía</span></h2>
+                <p class="mt-2 text-navy/70" id="pCity">Buenos Aires, Argentina</p>
+              </div>
+              <img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?q=80&w=300&auto=format&fit=crop" alt="Escudo dorado" class="w-16 h-16 rounded-full border border-gold/60">
+            </div>
+            <div class="mt-6 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <div class="text-navy/60">Fecha</div>
+                <div id="pDate" class="font-semibold">Sábado 22 de noviembre — 21:00</div>
+              </div>
+              <div>
+                <div class="text-navy/60">Salón</div>
+                <div id="pVenue" class="font-semibold">Salón "Abuelo Pepe"</div>
+              </div>
+              <div class="col-span-2">
+                <div class="text-navy/60">Dirección</div>
+                <div id="pAddr" class="font-semibold">Diag. los Quilmes 1104, Ing. Juan Allan</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Datos -->
+          <article id="p-datos" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Datos del evento</h3>
+            <div class="mt-4 grid sm:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <div class="text-xs text-navy/70">Fecha & Hora</div>
+                <div id="dDate" class="font-semibold">22/11 — 21:00</div>
+              </div>
+              <div class="space-y-2">
+                <div class="text-xs text-navy/70">Dress code</div>
+                <div id="dDress" class="font-semibold">Cocktail elegante</div>
+              </div>
+              <div class="space-y-2 sm:col-span-2">
+                <div class="text-xs text-navy/70">Salón</div>
+                <div id="dVenue" class="font-semibold">Salón "Abuelo Pepe" — Diag. los Quilmes 1104, Ing. Juan Allan</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Mapa -->
+          <article id="p-mapa" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">¿Dónde y cómo llegar?</h3>
+            <p class="mt-2 text-navy/70">Usá el botón para abrir Google Maps o mostrar el mapa aquí.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <a id="mapLink" href="https://maps.app.goo.gl/Z6vEhgC4vdPq5gjC6" target="_blank" class="btn btn-gold">Ver en Google Maps</a>
+              <button id="toggleMap" class="btn border-navy text-navy hover:bg-navy/5">Mostrar mapa aquí</button>
+            </div>
+            <div id="mapWrap" class="hidden mt-4 aspect-[4/3] rounded-xl overflow-hidden border border-navy/20">
+              <iframe id="mapFrame" src="" class="w-full h-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa del salón"></iframe>
+            </div>
+          </article>
+
+          <!-- Dress code -->
+          <article id="p-dress" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Dress code</h3>
+            <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+              <div class="p-4 rounded-xl border border-gold/40"><div class="text-4xl">👗</div><div class="mt-2 font-semibold">Cocktail</div></div>
+              <div class="p-4 rounded-xl border border-gold/40"><div class="text-4xl">👔</div><div class="mt-2 font-semibold">Formal</div></div>
+              <div class="p-4 rounded-xl border border-gold/40"><div class="text-4xl">🥂</div><div class="mt-2 font-semibold">Elegante</div></div>
+              <div class="p-4 rounded-xl border border-gold/40"><div class="text-4xl">🚫</div><div class="mt-2 font-semibold">Sin deportivas</div></div>
+            </div>
+          </article>
+
+          <!-- RSVP -->
+          <article id="p-rsvp" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Confirmación (RSVP)</h3>
+            <form id="rsvpForm" class="mt-4 grid sm:grid-cols-3 gap-3">
+              <input name="nombre" required placeholder="Tu nombre" class="px-4 py-3 rounded-lg border border-navy/20 bg-white/90">
+              <select name="asistentes" class="px-4 py-3 rounded-lg border border-navy/20 bg-white/90">
+                <option>1</option><option>2</option><option>3</option><option>4</option>
+              </select>
+              <button class="btn btn-gold" type="submit">Confirmar por WhatsApp</button>
+              <textarea name="mensaje" placeholder="Mensaje (opcional)" class="sm:col-span-3 px-4 py-3 rounded-lg border border-navy/20 bg-white/90"></textarea>
+            </form>
+          </article>
+
+          <!-- Cuenta regresiva (primera) -->
+          <article id="p-count" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Cuenta regresiva</h3>
+            <div class="mt-6 grid grid-cols-4 gap-3 text-center">
+              <div class="p-4 rounded-xl bg-navy text-ivory"><div id="cDays" class="text-3xl font-display">00</div><div class="text-xs">días</div></div>
+              <div class="p-4 rounded-xl bg-navy text-ivory"><div id="cHours" class="text-3xl font-display">00</div><div class="text-xs">horas</div></div>
+              <div class="p-4 rounded-xl bg-navy text-ivory"><div id="cMins" class="text-3xl font-display">00</div><div class="text-xs">min</div></div>
+              <div class="p-4 rounded-xl bg-navy text-ivory"><div id="cSecs" class="text-3xl font-display">00</div><div class="text-xs">seg</div></div>
+            </div>
+          </article>
+
+          <!-- Regalos -->
+          <article id="p-regalos" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Regalos</h3>
+            <p class="mt-2 text-navy/70">Datos para obsequios o transferencia.</p>
+            <div id="giftPanel" class="mt-4 grid sm:grid-cols-2 gap-3">
+              <div class="p-4 rounded-xl bg-white/80 border border-gold/30">
+                <div class="text-xs text-navy/60">Alias</div>
+                <div class="font-semibold">Quince.Pesos</div>
+                <div class="mt-2 text-xs text-navy/60">CBU</div>
+                <div class="font-mono text-sm">0000000000000000000000</div>
+              </div>
+              <div class="p-4 rounded-xl bg-white/80 border border-gold/30">
+                <div class="text-xs text-navy/60">Alias</div>
+                <div class="font-semibold">Quince.USD</div>
+                <div class="mt-2 text-xs text-navy/60">CBU</div>
+                <div class="font-mono text-sm">0000000000000000000000</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Galería demo -->
+          <article id="p-galeria" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Galería</h3>
+            <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1532634886-26909d0d4b6a?q=80&w=600&auto=format&fit=crop" alt="Foto 1"/>
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1520975922203-b7f5af5c0d5f?q=80&w=600&auto=format&fit=crop" alt="Foto 2"/>
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop" alt="Foto 3"/>
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=600&auto=format&fit=crop" alt="Foto 4"/>
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1534854638093-bada1813ca19?q=80&w=600&auto=format&fit=crop" alt="Foto 5"/>
+              <img class="rounded-xl border border-gold/30" src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?q=80&w=600&auto=format&fit=crop" alt="Foto 6"/>
+            </div>
+          </article>
+
+          <!-- Agenda / Calendar -->
+          <article id="p-agenda" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Agregar al calendario</h3>
+            <p class="mt-2 text-navy/70">Descargá un archivo .ics con los datos del evento.</p>
+            <button id="btnICS" class="btn btn-gold mt-4">Descargar .ics</button>
+          </article>
+
+          <!-- FAQ -->
+          <article id="p-faq" class="page min-w-[92%] sm:min-w-[640px] bg-ivory text-navy rounded-2xl p-6 shadow-glam elegant-border">
+            <h3 class="font-display text-2xl">Preguntas frecuentes</h3>
+            <div class="mt-4 space-y-3">
+              <details class="p-4 rounded-xl border border-gold/30 bg-white/70" open>
+                <summary class="font-semibold">¿Hay estacionamiento?</summary>
+                <p class="mt-2 text-sm text-navy/80">Sí, en la zona del salón hay estacionamiento vigilado.</p>
+              </details>
+              <details class="p-4 rounded-xl border border-gold/30 bg-white/70">
+                <summary class="font-semibold">¿Niños/as?</summary>
+                <p class="mt-2 text-sm text-navy/80">Bienvenidos con supervisión de un adulto.</p>
+              </details>
+              <details class="p-4 rounded-xl border border-gold/30 bg-white/70">
+                <summary class="font-semibold">¿Código de vestimenta?</summary>
+                <p class="mt-2 text-sm text-navy/80">Cocktail elegante.</p>
+              </details>
+            </div>
+          </article>
+        </div>
+
+        <!-- Hint “Deslizá →” (solo mobile) -->
+        <div class="sm:hidden swipe-hint select-none">
+          <span>Deslizá</span>
+          <span class="chev">➜</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer minimal -->
+  <footer class="border-t border-white/10">
+    <div class="max-w-5xl mx-auto px-4 py-8 text-sm text-white/60">
+      © <span id="year"></span> OneClick Invitaciones
+    </div>
+  </footer>
+
+  <script>
+    // ====== Config mínima ======
+    const EVENT = {
+      name: 'Mía',
+      city: 'Buenos Aires, Argentina',
+      venue: 'Salón "Abuelo Pepe"',
+      address: 'Diag. los Quilmes 1104, Ing. Juan Allan',
+      dateISO: '2025-11-22T21:00:00',
+      hero: 'https://gregdotel.com/wp-content/uploads/2023/05/15-Carismell_GDP3220_15-anos-jardin-botanico-quinceaneras-republica-dominicana-santo-domingo_Greg-Dotel_1.jpg', // 📸 FOTO PRINCIPAL
+      maps: {
+        link: 'https://maps.app.goo.gl/Z6vEhgC4vdPq5gjC6',
+        embed: 'https://www.google.com/maps?q=Diag.+los+Quilmes+1104,+Ing.+Juan+Allan&output=embed'
+      },
+      whatsapp: '+5491112345678'
+    };
+
+    // ====== Util ======
+    const $ = s => document.querySelector(s);
+
+    // ====== Poblado inicial ======
+    function populate(){
+      // Hero bg
+      const hero = $('#hero');
+      if (hero && EVENT.hero){
+        hero.style.backgroundImage = `url('${EVENT.hero}')`;
+      }
+
+      // Portada / datos
+      $('#pName').textContent  = EVENT.name;
+      $('#pCity').textContent  = EVENT.city;
+      $('#pVenue').textContent = EVENT.venue;
+      $('#pAddr').textContent  = EVENT.address;
+      $('#dVenue').textContent = `${EVENT.venue} — ${EVENT.address}`;
+      $('#mapLink').href       = EVENT.maps.link;
+      $('#demoName').textContent = EVENT.name;
+
+      const dt = new Date(EVENT.dateISO);
+      const hh = String(dt.getHours()).padStart(2,'0');
+      const mm = String(dt.getMinutes()).padStart(2,'0');
+      const dateShort = dt.toLocaleDateString('es-AR', { day:'2-digit', month:'2-digit' });
+      $('#demoDate').textContent = `${dateShort} — ${hh}:${mm}`;
+      $('#dDate').textContent    = $('#demoDate').textContent;
+      $('#pDate').textContent    = `Sábado ${dt.toLocaleDateString('es-AR',{ day:'2-digit', month:'long' })} — ${hh}:${mm}`;
+
+      // Footer year
+      $('#year').textContent = new Date().getFullYear();
+
+      // Mostrar primero la cuenta regresiva (autoscroll inicial)
+      const first = document.getElementById('p-count');
+      first?.scrollIntoView({ behavior:'auto', inline:'start', block:'nearest' });
+    }
+
+    // ====== Tabs to snap pages ======
+    document.querySelectorAll('.pageTab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const target = document.querySelector(btn.dataset.target);
+        target?.scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' });
+      });
+    });
+
+    // ====== Map toggle ======
+    document.getElementById('toggleMap').addEventListener('click',()=>{
+      const wrap = document.getElementById('mapWrap');
+      wrap.classList.toggle('hidden');
+      const frame = document.getElementById('mapFrame');
+      if(!frame.src) frame.src = EVENT.maps.embed;
+    });
+
+    // ====== RSVP WhatsApp ======
+    document.getElementById('rsvpForm').addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const name = (fd.get('nombre')||'').toString().trim();
+      const qty  = fd.get('asistentes');
+      const msg  = (fd.get('mensaje')||'').toString().trim();
+      const text = `Hola, confirmo asistencia al XV de ${EVENT.name}. Somos ${qty}. ${name?`Soy ${name}.`:''} ${msg?`Mensaje: ${msg}`:''}`.trim();
+      const url = `https://wa.me/${EVENT.whatsapp.replace(/[^\d]/g,'')}?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    });
+
+    // ====== Countdown ======
+    function tick(){
+      const t = new Date(EVENT.dateISO).getTime() - Date.now();
+      const sec = Math.max(0, Math.floor(t/1000));
+      const d = Math.floor(sec/86400);
+      const h = Math.floor((sec%86400)/3600);
+      const m = Math.floor((sec%3600)/60);
+      const s = sec%60;
+      document.getElementById('cDays').textContent  = String(d).padStart(2,'0');
+      document.getElementById('cHours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cMins').textContent  = String(m).padStart(2,'0');
+      document.getElementById('cSecs').textContent  = String(s).padStart(2,'0');
+    }
+    setInterval(tick,1000); tick();
+
+    // ====== .ICS generator ======
+    document.getElementById('btnICS').addEventListener('click', ()=>{
+      const dt = new Date(EVENT.dateISO);
+      const dtStart = dt.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+      const dtEnd   = new Date(dt.getTime()+3*3600*1000).toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+      const ics = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//OneClick Invitaciones//XV Pasaporte//ES',
+        'BEGIN:VEVENT',
+        `DTSTART:${dtStart}`,`DTEND:${dtEnd}`,
+        `SUMMARY:XV de ${EVENT.name}`,
+        `LOCATION:${EVENT.venue} - ${EVENT.address}`,
+        `DESCRIPTION:XV de ${EVENT.name}. Más info: ${location.href}`,
+        'END:VEVENT','END:VCALENDAR'
+      ].join('\r\n');
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `XV-${EVENT.name}.ics`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // Init
+    populate();
+  </script>
+</body>
+</html>
